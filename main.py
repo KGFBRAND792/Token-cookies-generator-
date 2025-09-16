@@ -79,4 +79,5 @@ def send_message(recipient_id, message_text):
         print(f"Failed to send message: {response.status_code} {response.text}")
 
 if __name__ == '__main__':
+
     app.run(host='0.0.0.0', port=5000, debug=True)
