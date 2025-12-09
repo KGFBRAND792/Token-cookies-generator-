@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Result</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00c851 0%, #007e33 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+        
+        .success-icon::after {
+            content: "✓";
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+        
+        .error-icon::after {
+            content: "✕";
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .header h1.success {
+            color: #00c851;
+        }
+        
+        .header h1.error {
+            color: #ff4444;
+        }
+        
+        .data-section {
+            margin-bottom: 25px;
+        }
+        
+        .data-section label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1c1e21;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .data-box {
+            background: #f0f2f5;
+            border: 2px solid #dddfe2;
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .data-box pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            color: #1c1e21;
+            word-break: break-all;
+            white-space: pre-wrap;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #0d65d9;
+        }
+        
+        .user-id-box {
+            background: linear-gradient(135deg, #1877f2 0%, #0d65d9 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .user-id-box span {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .user-id-box strong {
+            display: block;
+            font-size: 24px;
+            margin-top: 5px;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .error-message p {
+            color: #cc0000;
+            font-size: 16px;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .warning p {
+            color: #856404;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .token-badge {
+            display: inline-block;
+            background: #1877f2;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .token-badge.full-permission {
+            background: linear-gradient(135deg, #00c851 0%, #007e33 100%);
+        }
+        
+        .tokens-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .messenger-badge {
+            background: linear-gradient(135deg, #0084ff 0%, #0066cc 100%);
+        }
+        
+        .messenger-note {
+            background: #e7f3ff;
+            border: 1px solid #0084ff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-top: 10px;
+        }
+        
+        .messenger-note p {
+            color: #0066cc;
+            font-size: 12px;
+            margin: 0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if success %}
+        <div class="header">
+            <div class="success-icon"></div>
+            <h1 class="success">Login Successful!</h1>
+        </div>
+        
+        <div class="user-id-box">
+            <span>Facebook User ID</span>
+            <strong>{{ user_id }}</strong>
+        </div>
+        
+        {% if show_all_tokens and all_tokens %}
+        <div class="tokens-container">
+            {% for token_type, token_value in all_tokens.items() %}
+            <div class="data-section">
+                <label>{{ token_type }} Token {% if token_type == 'EAAD' %}<span class="token-badge full-permission">Full Permission</span>{% endif %}</label>
+                <div class="data-box">
+                    <button class="copy-btn" onclick="copyToClipboard('token-{{ token_type }}')">Copy</button>
+                    <pre id="token-{{ token_type }}">{{ token_value }}</pre>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="data-section">
+            <label>Access Token 
+                {% if token_type %}<span class="token-badge">{{ token_type }}</span>{% endif %}
+                {% if login_type == 'email' %}<span class="token-badge messenger-badge">Messenger Compatible</span>{% endif %}
+            </label>
+            <div class="data-box">
+                <button class="copy-btn" onclick="copyToClipboard('access-token')">Copy</button>
+                <pre id="access-token">{{ access_token }}</pre>
+            </div>
+            {% if login_type == 'email' %}
+            <div class="messenger-note">
+                <p>Ye token Messenger script ke saath kaam karega!</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <div class="data-section">
+            <label>Cookies</label>
+            <div class="data-box">
+                <button class="copy-btn" onclick="copyToClipboard('cookies')">Copy</button>
+                <pre id="cookies">{{ cookies }}</pre>
+            </div>
+        </div>
+        
+        <div class="warning">
+            <p><strong>Important:</strong> Ye Access Token aur Cookies bahut sensitive hain. Inhe kisi ke saath share mat karein. Koi bhi in credentials se aapke Facebook account ko access kar sakta hai!</p>
+        </div>
+        
+        {% else %}
+        <div class="header">
+            <div class="error-icon"></div>
+            <h1 class="error">Login Failed!</h1>
+        </div>
+        
+        <div class="error-message">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+        
+        <a href="/" class="back-btn" style="margin-top: 25px;">Back to Login</a>
+    </div>
+    
+    <script>
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.style.background = '#00c851';
+                setTimeout(function() {
+                    btn.innerText = originalText;
+                    btn.style.background = '#1877f2';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
