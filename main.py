@@ -6,10 +6,6 @@ import re
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("__facebookLoginV2", os.path.join(os.path.dirname(__file__), "src", "__facebookLoginV2.py"))
-__facebookLoginV2 = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(__facebookLoginV2)
 
 app = Flask(__name__)
 
